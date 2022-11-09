@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import com.cognixia.jump.jdbc.dao.CustomerDAO;
 import com.cognixia.jump.jdbc.dao.InvoiceDAO;
@@ -33,7 +34,26 @@ public class ShoppingAppMenu {
 			System.out.println();
 			System.out.println("+===========================================================+");
 
-			choice1 = scan.nextInt();
+			try {
+				System.out.println("Please select from the given options");
+				choice1 = scan.nextInt();
+
+				while (choice1 < 1 || choice1 > 3) {
+
+					try {
+						System.out.println("Please select from the given options");
+						choice1 = scan.nextInt();
+
+					} catch (Exception e) {
+						System.err.println("Expecting a number!");
+						scan.next();
+					}
+				}
+
+			} catch (Exception e) {
+				System.err.println("Expecting a number!");
+				scan.next();
+			}
 
 			switch (choice1) {
 
@@ -61,6 +81,18 @@ public class ShoppingAppMenu {
 			System.out.println("+===========================================================+");
 
 			choice2 = scan.nextInt();
+
+			while (choice2 < 1 || choice2 > 4) {
+
+				try {
+					System.out.println("Please select from the given options");
+					choice2 = scan.nextInt();
+
+				} catch (Exception e) {
+					System.err.println("Expecting a number!");
+					scan.next();
+				}
+			}
 
 			switch (choice2) {
 
@@ -90,16 +122,47 @@ public class ShoppingAppMenu {
 		System.out.print("Please enter your name: ");
 		name = scan.next();
 
+		while (!Pattern.matches("^[A-Z\s]{1,}[A-Za-z\s]{2,}$", name)) {
+
+			System.out.println("Ensure First Letter of name is capitalized,");
+			System.out.println("no numbers or symbols");
+			name = scan.next();
+
+		}
+
 		scan.nextLine();
 		System.out.print("Please enter your email: ");
 		email = scan.next();
 
+		while (!Pattern.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b", email)) {
+
+			System.out.println("Email must be in the format: value@example.xyz");
+			email = scan.next();
+
+		}
+
 		scan.nextLine();
 		System.out.print("Enter your password: ");
-		String temp = password = scan.nextLine();
+		String temp = scan.nextLine();
+
+		while (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", temp)) {
+
+			System.out.println("Password must be: ");
+			System.out.println("Minimum eight characters, at least one capital letter and one number:");
+			temp = scan.next();
+
+		}
 
 		System.out.print("Confirm your password: ");
-		password = scan.nextLine();
+		password = scan.next();
+
+		while (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", password)) {
+
+			System.out.println("Password must be: ");
+			System.out.println("Minimum eight characters, at least one letter and one number:");
+			password = scan.next();
+
+		}
 
 		if (temp.equals(password)) {
 			Customer customer = new Customer();
